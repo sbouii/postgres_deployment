@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+ name: dbserver-config
+data:
+ username: postgres
+ password: postgres

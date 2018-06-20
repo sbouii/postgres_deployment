@@ -1,0 +1,40 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: dbclient-deployment
+  labels:
+    app: dbclient
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: dbclient
+  template:
+    metadata:
+      labels:
+        app: dbclient
+    spec:
+      containers:
+      - name: dbclient
+        # Docker Image: https://hub.docker.com/_/adminer/
+        image: adminer
+        resources:
+          requests:
+            cpu: 100m
+            memory: 100Mi
+        ports:
+        - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-dbclient-service
+  labels:
+    app: dbclient
+spec:
+  type: NodePort  
+  ports:
+  - port: 8080
+    targetPort: 8080
+  selector:
+    app: dbclient
