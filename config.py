@@ -13,6 +13,9 @@ class Postgres:
   try:
    conn = psycopg2.connect(host=self.host, database=self.database, user=self.user)
    cur = conn.cursor()
+   '''
+    Get PostgreSQL database version
+   '''
    print 'PostgreSQL database version *****************************************'
    cur.execute('SELECT version()')
    db_version = cur.fetchone()
@@ -20,6 +23,7 @@ class Postgres:
    '''
     Check the active SQL queries and open connections in Postgres by checking the table pg_stat_activity
    '''
+   print 'Active SQL queries **************************************************'
    command1 = "select datname, usename, pid, client_addr, waiting, query_start from pg_stat_activity;"
    cur.execute(command1)
    active_queries = cur.fetchall()
@@ -28,6 +32,7 @@ class Postgres:
    '''
     Get all databases     
    '''
+   print 'All databases *******************************************************'
    command2 = "select datname from pg_database;"
    cur.execute(command2)
    databases = cur.fetchall()
@@ -36,6 +41,7 @@ class Postgres:
    '''
     Get all tables in the current database
    '''
+   print 'All tables in the current database **********************************'
    command3 = "select * from pg_catalog.pg_tables where schemaname != 'pg_catalog' and schemaname != 'information_schema';;"
    cur.execute(command3)
    tables_current_database = cur.fetchall()
